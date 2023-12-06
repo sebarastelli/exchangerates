@@ -5,6 +5,7 @@ const tipoDeCambio = document.querySelector("#tipoDeCambio");
 const total = document.querySelectorAll(".card-text");
 const cantidadInput = document.querySelector("#cantidadInput");
 const fechaInput = document.querySelector("#fechaInput");
+const lista = document.querySelector("#lista");
 let primerCambioElegido = "USD";
 let cantidad = 1;
 let fechaSeleccionada = "latest";
@@ -94,6 +95,19 @@ function obtenerFecha() {
   }
 }
 
+function obtenerLista(){
+  fetch(`${URL}latest`)
+  .then((res)=> res.json())
+  .then((data)=>{
+    for (const divisa in data.rates) {
+      const itemDeLista = document.createElement('li');
+      itemDeLista.innerText = `${divisa} = ${data.rates[divisa]}`;
+      itemDeLista.classList.add("list-group-item",'col-md-6')
+      lista.appendChild(itemDeLista);
+    }
+  })
+}
+obtenerLista()
 renderizadoDeCartas();
 
 //
