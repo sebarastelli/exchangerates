@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <title>Exchange Rates</title>
+  <style>
+    #prueba {
+      width: 400px;
+      height: 400px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="">
+    <nav class="navbar sticky-top bg-body-tertiary d-flex justify-content-center">
+      <div class="">
+        <span>Elige el tipo de cambio</span>
+        <select class="mb-2" name="tipoDeCambio" id="tipoDeCambio">
+          <option value="USD">USD</option>
+          <option value="EUR">EUR</option>
+          <option value="AUD">AUD</option>
+          <option value="NZD">NZD</option>
+        </select>
+      </div>
+      <input class="mx-2" type="text" placeholder="1" id="cantidadInput" />
+      <button onclick="enviarCantidad()" class="btn btn-success" type="submit">Cambiar Monto</button>
+      <input class="mx-2 my-2" type="date" min="1999-01-04" max=fechaFormateada id="fechaInput">
+      <button class="btn btn-success" onclick="obtenerFecha()">Cambiar fecha</button>
+    </nav>
+    <h3 class="text-center" id="titulo">Elegiste: USD</h1>
+      <div class="row row-cols-1 row-cols-md-2 g-4 mt-5 mx-5">
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">USD</h5>
+              <span>EE.UU. Dólar</span>
+              <p class="card-text"></p>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">EUR</h5>
+              <span>Euro</span>
+              <p class="card-text"></p>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">AUD</h5>
+              <span>Australia Dolar</span>
+              <p class="card-text"></p>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">NZD</h5>
+              <span>Nueva Zelanda Dólar</span>
+              <p class="card-text"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h3 class="text-center mt-5">Valor de divisas actualizado</h3>
+      <div class="container my-5">
+        <div id="lista" class="row text-center">
+            
+        </div>
+    </div>
+  </div>
+  <script src="./src/index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
