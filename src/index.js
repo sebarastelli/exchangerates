@@ -17,7 +17,7 @@ tipoDeCambio.addEventListener("change", () => {
   renderizadoDeCartas();
 });
 
-function comparacion(cambiosPredefinidos) {
+/* function comparacion(cambiosPredefinidos) {
   if (primerCambioElegido === cambiosPredefinidos) {
     total.forEach((cardText) => {
       const cardTitle =
@@ -65,7 +65,7 @@ function comparacion(cambiosPredefinidos) {
       })
       .catch((error) => console.error("Error en la solicitud:", error));
   }
-}
+} */
 
 function renderizadoDeCartas() {
   let divisas = document.querySelectorAll(".card-title");
@@ -95,7 +95,7 @@ function obtenerFecha() {
   }
 }
 
-function obtenerLista(){
+/* function obtenerLista(){
   fetch(`${URL}latest`)
   .then((res)=> res.json())
   .then((data)=>{
@@ -106,7 +106,67 @@ function obtenerLista(){
       lista.appendChild(itemDeLista);
     }
   })
+} */
+
+function obtenerTasasDeCambio(desde, hacia, cantidad, fecha) {
+  const fechaFormateada = fecha === "latest" ? fecha : new Date(fecha).toISOString().split("T")[0];
+
+  return fetch(`${URL}${fechaFormateada}?amount=${cantidad}&from=${desde}&to=${hacia}`)
+    .then((respuesta) => respuesta.json())
+    .then((datos) => datos.rates[hacia])
+    .catch((error) => {
+      throw error;
+    });
 }
+
+function actualizarInterfaz(desde, hacia, cantidad, resultado) {
+  total.forEach((cardText) => {
+    const cardTitle = cardText.parentElement.querySelector(".card-title").innerText;
+    if (cardTitle === hacia) {
+      cardText.innerText = `${cantidad} ${desde} = ${resultado} ${hacia}`;
+    } else if (cardTitle === desde) {
+      cardText.innerText = "";
+    }
+  });
+}
+
+function comparacion(cambiosPredefinidos) {
+  if (primerCambioElegido === cambiosPredefinidos) {
+    total.forEach((cardText) => {
+      const cardTitle = cardText.parentElement.querySelector(".card-title").innerText;
+      if (cardTitle === primerCambioElegido) {
+        cardText.innerText = "";
+      }
+    });
+    return;
+  }
+
+  obtenerTasasDeCambio(primerCambioElegido, cambiosPredefinidos, cantidad, fechaSeleccionada)
+    .then((resultado) => {
+      actualizarInterfaz(primerCambioElegido, cambiosPredefinidos, cantidad, resultado);
+    })
+    .catch((error) => {
+      throw(error)
+    });
+}
+
+function obtenerLista() {
+  fetch(`${URL}latest`)
+    .then((respuesta) => respuesta.json())
+    .then((datos) => {
+      for (const divisa in datos.rates) {
+        const itemDeLista = document.createElement('li');
+        itemDeLista.innerText = `${divisa} = ${datos.rates[divisa]}`;
+        itemDeLista.classList.add("list-group-item", 'col-md-6');
+        lista.appendChild(itemDeLista);
+      }
+    })
+    .catch((error) => {
+      throw(error)
+    });
+}
+
+
 obtenerLista()
 renderizadoDeCartas();
 
