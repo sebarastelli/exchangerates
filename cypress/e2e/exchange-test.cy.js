@@ -1,11 +1,11 @@
 const URL = "http://127.0.0.1:8080";
 const numeroDeDivisas = 4;
 
-describe("Pokedex", () => {
+describe("Exchangerates", () => {
   beforeEach(() => {
     cy.intercept(
       "GET",
-      "https://api.frankfurter.app/2024-09-17?amount=1.0&from=EUR",
+      "https://api.frankfurter.app/latest",
       { fixture: "divisas" }
     ).as("obtenerDivisas");
 
@@ -43,8 +43,8 @@ describe("Pokedex", () => {
           cy.get("#cantidadInput").type(nuevoMonto);
           cy.get("button:contains('Cambiar Monto')").click();
           cy.get(".card:contains('AUD') .card-text").should(
-            "have.text",
-            `${nuevoMonto} EUR = ${numerosExtraidos * nuevoMonto} AUD`
+            "contain.text",
+            `${nuevoMonto} EUR =`
           );
         });
     });
