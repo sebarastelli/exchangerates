@@ -1,8 +1,14 @@
-const URL = "http://192.168.100.82:8080";
+const URL = "http://127.0.0.1:8080";
 const numeroDeDivisas = 4;
 
-context("exchange-test", () => {
+describe("Pokedex", () => {
   beforeEach(() => {
+    cy.intercept(
+      "GET",
+      "https://api.frankfurter.app/2024-09-17?amount=1.0&from=EUR",
+      { fixture: "divisas" }
+    ).as("obtenerDivisas");
+
     cy.visit(URL);
   });
 
